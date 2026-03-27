@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pagamentos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container py-4">
+    <a class="btn btn-link ps-0" th:href="@{/}">← Voltar</a>
+    <h1 class="h3 mb-3">Registro de pagamentos</h1>
+
+    <form th:action="@{/pagamentos}" th:object="${pagamento}" method="post" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <label class="form-label">Lançamento</label>
+            <select name="lancamentoId" class="form-select" required>
+                <option value="">Selecione...</option>
+                <option th:each="l : ${lancamentos}" th:value="${l.id}" th:text="${l.morador.nome + ' - ' + l.tipo + ' - ' + l.competencia}"></option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Data</label>
+            <input type="date" th:field="*{dataPagamento}" class="form-control">
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Valor pago</label>
+            <input type="number" step="0.01" th:field="*{valorPago}" class="form-control">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Forma</label>
+            <input type="text" th:field="*{formaPagamento}" class="form-control" placeholder="PIX, boleto, dinheiro...">
+        </div>
+        <div class="col-md-1 d-grid align-items-end">
+            <button class="btn btn-success" type="submit">Salvar</button>
+        </div>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Data</th>
+            <th>Morador</th>
+            <th>Tipo</th>
+            <th>Valor</th>
+            <th>Forma</th>
+            <th>Recibo</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${pagamentos}">
+            <td th:text="${item.dataPagamento}"></td>
+            <td th:text="${item.lancamento.morador.nome}"></td>
+            <td th:text="${item.lancamento.tipo}"></td>
+            <td th:text="${#numbers.formatDecimal(item.valorPago, 1, 'POINT', 2, 'COMMA')}"></td>
+            <td th:text="${item.formaPagamento}"></td>
+            <td><a class="btn btn-sm btn-outline-primary" th:href="@{'/pagamentos/' + ${item.id} + '/recibo'}">Visualizar</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

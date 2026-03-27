@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Condomínio dos Cajueiros</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-success mb-4">
+    <div class="container">
+        <span class="navbar-brand">Condomínio dos Cajueiros</span>
+    </div>
+</nav>
+
+<main class="container">
+    <div class="p-4 p-md-5 mb-4 text-white rounded hero">
+        <h1 class="display-6">Condomínio Admin</h1>
+        <p class="lead mb-0">Base simples para cadastro de moradores, lançamentos, pagamentos e recibos.</p>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <a class="card shadow-sm h-100 text-decoration-none" th:href="@{/moradores}">
+                <div class="card-body">
+                    <h5 class="card-title">Moradores</h5>
+                    <p class="text-muted">Cadastro de condôminos por unidade.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a class="card shadow-sm h-100 text-decoration-none" th:href="@{/lancamentos}">
+                <div class="card-body">
+                    <h5 class="card-title">Lançamentos</h5>
+                    <p class="text-muted">Condomínio mensal e cota extra.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a class="card shadow-sm h-100 text-decoration-none" th:href="@{/pagamentos}">
+                <div class="card-body">
+                    <h5 class="card-title">Pagamentos</h5>
+                    <p class="text-muted">Registro de pagamento e emissão de recibo.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</main>
+</body>
+</html>
