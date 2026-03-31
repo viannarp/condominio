@@ -11,12 +11,19 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-success mb-4">
     <div class="container">
         <span class="navbar-brand">Condomínio dos Cajueiros</span>
+<<<<<<< HEAD
+=======
+        <form method="post" th:action="@{/logout}">
+            <button class="btn btn-outline-light btn-sm" type="submit">Sair</button>
+        </form>
+>>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
     </div>
 </nav>
 
 <main class="container">
     <div class="p-4 p-md-5 mb-4 text-white rounded hero">
         <h1 class="display-6">Condomínio Admin</h1>
+<<<<<<< HEAD
         <p class="lead mb-0">Base simples para cadastro de moradores, lançamentos, pagamentos e recibos.</p>
     </div>
 
@@ -42,6 +49,41 @@
                 <div class="card-body">
                     <h5 class="card-title">Pagamentos</h5>
                     <p class="text-muted">Registro de pagamento e emissão de recibo.</p>
+=======
+        <p class="lead mb-0">Cadastro, lançamentos, pagamentos, recibo PDF e relatório mensal por unidade.</p>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-3">
+            <a class="card shadow-sm h-100 text-decoration-none" th:href="@{/moradores}">
+                <div class="card-body">
+                    <h5 class="card-title">Moradores</h5>
+                    <p class="text-muted">Cadastro com edição e exclusão.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a class="card shadow-sm h-100 text-decoration-none" th:href="@{/lancamentos}">
+                <div class="card-body">
+                    <h5 class="card-title">Lançamentos</h5>
+                    <p class="text-muted">Condomínio, cota extra e saldo em aberto.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a class="card shadow-sm h-100 text-decoration-none" th:href="@{/pagamentos}">
+                <div class="card-body">
+                    <h5 class="card-title">Pagamentos</h5>
+                    <p class="text-muted">Pagamentos parciais, recibo em tela e PDF.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a class="card shadow-sm h-100 text-decoration-none" th:href="@{/relatorios/mensal}">
+                <div class="card-body">
+                    <h5 class="card-title">Relatório</h5>
+                    <p class="text-muted">Resumo mensal por unidade.</p>
+>>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
                 </div>
             </a>
         </div>

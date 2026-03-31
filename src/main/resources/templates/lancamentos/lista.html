@@ -9,14 +9,27 @@
 <body>
 <div class="container py-4">
     <a class="btn btn-link ps-0" th:href="@{/}">← Voltar</a>
+<<<<<<< HEAD
     <h1 class="h3 mb-3">Lançamento de condomínio / cota extra</h1>
 
     <form th:action="@{/lancamentos}" th:object="${lancamento}" method="post" class="row g-3 mb-4">
+=======
+    <h1 class="h3 mb-3">Lançamentos de condomínio e cota extra</h1>
+
+    <form th:action="@{/lancamentos}" th:object="${lancamento}" method="post" class="row g-3 mb-4">
+        <input type="hidden" th:field="*{id}">
+>>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
         <div class="col-md-3">
             <label class="form-label">Morador</label>
             <select name="moradorId" class="form-select" required>
                 <option value="">Selecione...</option>
+<<<<<<< HEAD
                 <option th:each="m : ${moradores}" th:value="${m.id}" th:text="${m.nome + ' - ' + m.unidade}"></option>
+=======
+                <option th:each="m : ${moradores}"
+                        th:selected="${lancamento.morador != null and lancamento.morador.id == m.id}"
+                        th:value="${m.id}" th:text="${m.nome + ' - ' + m.unidade}"></option>
+>>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
             </select>
         </div>
         <div class="col-md-2">
@@ -27,28 +40,45 @@
         </div>
         <div class="col-md-2">
             <label class="form-label">Competência</label>
+<<<<<<< HEAD
             <input type="date" th:field="*{competencia}" class="form-control">
         </div>
         <div class="col-md-2">
             <label class="form-label">Valor</label>
             <input type="number" step="0.01" th:field="*{valor}" class="form-control">
+=======
+            <input type="date" th:field="*{competencia}" class="form-control" required>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Valor</label>
+            <input type="number" step="0.01" th:field="*{valor}" class="form-control" required>
+>>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
         </div>
         <div class="col-md-2">
             <label class="form-label">Descrição</label>
             <input type="text" th:field="*{descricao}" class="form-control">
         </div>
         <div class="col-md-1 d-grid align-items-end">
+<<<<<<< HEAD
             <button class="btn btn-success" type="submit">Salvar</button>
         </div>
     </form>
 
     <table class="table table-striped">
+=======
+            <button class="btn btn-success" type="submit" th:text="${lancamento.id == null ? 'Salvar' : 'Atualizar'}"></button>
+        </div>
+    </form>
+
+    <table class="table table-striped align-middle">
+>>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
         <thead>
         <tr>
             <th>Morador</th>
             <th>Tipo</th>
             <th>Competência</th>
             <th>Valor</th>
+<<<<<<< HEAD
             <th>Descrição</th>
         </tr>
         </thead>
@@ -59,6 +89,27 @@
             <td th:text="${item.competencia}"></td>
             <td th:text="${#numbers.formatDecimal(item.valor, 1, 'POINT', 2, 'COMMA')}"></td>
             <td th:text="${item.descricao}"></td>
+=======
+            <th>Total pago</th>
+            <th>Saldo em aberto</th>
+            <th class="text-end">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${resumos}">
+            <td th:text="${item.lancamento.morador.nome + ' - ' + item.lancamento.morador.unidade}"></td>
+            <td th:text="${item.lancamento.tipo}"></td>
+            <td th:text="${item.lancamento.competencia}"></td>
+            <td th:text="${#numbers.formatDecimal(item.lancamento.valor, 1, 'POINT', 2, 'COMMA')}"></td>
+            <td th:text="${#numbers.formatDecimal(item.totalPago, 1, 'POINT', 2, 'COMMA')}"></td>
+            <td th:text="${#numbers.formatDecimal(item.saldoAberto, 1, 'POINT', 2, 'COMMA')}"></td>
+            <td class="text-end">
+                <a class="btn btn-sm btn-outline-primary" th:href="@{'/lancamentos?editar=' + ${item.lancamento.id}}">Editar</a>
+                <form class="d-inline" th:action="@{'/lancamentos/' + ${item.lancamento.id} + '/excluir'}" method="post">
+                    <button class="btn btn-sm btn-outline-danger" type="submit">Excluir</button>
+                </form>
+            </td>
+>>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
         </tr>
         </tbody>
     </table>

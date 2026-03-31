@@ -12,6 +12,7 @@
     <h1 class="h3 mb-3">Cadastro de moradores</h1>
 
     <form th:action="@{/moradores}" th:object="${morador}" method="post" class="row g-3 mb-4">
+<<<<<<< HEAD
         <div class="col-md-5">
             <label class="form-label">Nome</label>
             <input type="text" th:field="*{nome}" class="form-control">
@@ -19,22 +20,44 @@
         <div class="col-md-3">
             <label class="form-label">Unidade</label>
             <input type="text" th:field="*{unidade}" class="form-control">
+=======
+        <input type="hidden" th:field="*{id}">
+        <div class="col-md-5">
+            <label class="form-label">Nome</label>
+            <input type="text" th:field="*{nome}" class="form-control" required>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Unidade</label>
+            <input type="text" th:field="*{unidade}" class="form-control" required>
+>>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
         </div>
         <div class="col-md-3">
             <label class="form-label">Telefone</label>
             <input type="text" th:field="*{telefone}" class="form-control">
         </div>
         <div class="col-md-1 d-grid align-items-end">
+<<<<<<< HEAD
             <button class="btn btn-success" type="submit">Salvar</button>
         </div>
     </form>
 
     <table class="table table-striped">
+=======
+            <button class="btn btn-success" type="submit" th:text="${morador.id == null ? 'Salvar' : 'Atualizar'}"></button>
+        </div>
+    </form>
+
+    <table class="table table-striped align-middle">
+>>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
         <thead>
         <tr>
             <th>Nome</th>
             <th>Unidade</th>
             <th>Telefone</th>
+<<<<<<< HEAD
+=======
+            <th class="text-end">Ações</th>
+>>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
         </tr>
         </thead>
         <tbody>
@@ -42,6 +65,15 @@
             <td th:text="${item.nome}"></td>
             <td th:text="${item.unidade}"></td>
             <td th:text="${item.telefone}"></td>
+<<<<<<< HEAD
+=======
+            <td class="text-end">
+                <a class="btn btn-sm btn-outline-primary" th:href="@{'/moradores?editar=' + ${item.id}}">Editar</a>
+                <form class="d-inline" th:action="@{'/moradores/' + ${item.id} + '/excluir'}" method="post">
+                    <button class="btn btn-sm btn-outline-danger" type="submit">Excluir</button>
+                </form>
+            </td>
+>>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
         </tr>
         </tbody>
     </table>
