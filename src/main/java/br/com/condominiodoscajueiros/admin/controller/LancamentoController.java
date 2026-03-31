@@ -50,7 +50,7 @@ public class LancamentoController {
             lancamento.setMorador(morador);
         }
 
-        if (bindingResult.hasErrors()) {
+        if (!bindingResult.hasErrors()) {
             model.addAttribute("tipos", TipoLancamento.values());
             model.addAttribute("moradores", service.listarMoradores());
             model.addAttribute("lancamentos", service.listarLancamentos());

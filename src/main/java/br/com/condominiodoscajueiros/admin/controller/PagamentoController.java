@@ -49,7 +49,7 @@ public class PagamentoController {
             pagamento.setLancamento(lancamento);
         }
 
-        if (bindingResult.hasErrors()) {
+        if (!bindingResult.hasErrors()) {
             model.addAttribute("lancamentos", service.listarLancamentos());
             model.addAttribute("pagamentos", service.listarPagamentos());
             return "pagamentos/lista";
