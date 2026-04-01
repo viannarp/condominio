@@ -14,5 +14,4 @@ public interface PagamentoRepository extends JpaRepository<Pagamento, Long> {
 
     @Query("select coalesce(sum(p.valorPago), 0) from Pagamento p where p.lancamento.id = :lancamentoId")
     BigDecimal somarPagamentosPorLancamento(@Param("lancamentoId") Long lancamentoId);
-
 }
