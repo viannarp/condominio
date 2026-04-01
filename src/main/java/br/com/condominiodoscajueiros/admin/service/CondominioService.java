@@ -3,21 +3,13 @@ package br.com.condominiodoscajueiros.admin.service;
 import br.com.condominiodoscajueiros.admin.domain.Lancamento;
 import br.com.condominiodoscajueiros.admin.domain.Morador;
 import br.com.condominiodoscajueiros.admin.domain.Pagamento;
-<<<<<<< HEAD
-=======
 import br.com.condominiodoscajueiros.admin.dto.LancamentoResumoDto;
 import br.com.condominiodoscajueiros.admin.dto.RelatorioUnidadeDto;
->>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
 import br.com.condominiodoscajueiros.admin.repository.LancamentoRepository;
 import br.com.condominiodoscajueiros.admin.repository.MoradorRepository;
 import br.com.condominiodoscajueiros.admin.repository.PagamentoRepository;
 import org.springframework.stereotype.Service;
-<<<<<<< HEAD
-
-import java.util.List;
-=======
 import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -26,7 +18,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
->>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
+
 
 @Service
 public class CondominioService {
@@ -44,13 +36,9 @@ public class CondominioService {
     }
 
     public List<Morador> listarMoradores() {
-<<<<<<< HEAD
-        return moradorRepository.findAll();
-=======
         return moradorRepository.findAll().stream()
                 .sorted(Comparator.comparing(Morador::getUnidade).thenComparing(Morador::getNome))
                 .toList();
->>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
     }
 
     public Morador salvarMorador(Morador morador) {
@@ -61,10 +49,6 @@ public class CondominioService {
         return moradorRepository.findById(id).orElse(null);
     }
 
-<<<<<<< HEAD
-    public List<Lancamento> listarLancamentos() {
-        return lancamentoRepository.findAll();
-=======
     @Transactional
     public void excluirMorador(Long id) {
         moradorRepository.deleteById(id);
@@ -74,7 +58,6 @@ public class CondominioService {
         return lancamentoRepository.findAll().stream()
                 .sorted(Comparator.comparing(Lancamento::getCompetencia).reversed())
                 .toList();
->>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
     }
 
     public Lancamento salvarLancamento(Lancamento lancamento) {
@@ -85,10 +68,6 @@ public class CondominioService {
         return lancamentoRepository.findById(id).orElse(null);
     }
 
-<<<<<<< HEAD
-    public List<Pagamento> listarPagamentos() {
-        return pagamentoRepository.findAll();
-=======
     @Transactional
     public void excluirLancamento(Long id) {
         lancamentoRepository.deleteById(id);
@@ -98,7 +77,6 @@ public class CondominioService {
         return pagamentoRepository.findAll().stream()
                 .sorted(Comparator.comparing(Pagamento::getDataPagamento).reversed())
                 .toList();
->>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
     }
 
     public Pagamento salvarPagamento(Pagamento pagamento) {
@@ -108,8 +86,6 @@ public class CondominioService {
     public Pagamento buscarPagamento(Long id) {
         return pagamentoRepository.findById(id).orElse(null);
     }
-<<<<<<< HEAD
-=======
 
     @Transactional
     public void excluirPagamento(Long id) {
@@ -163,5 +139,4 @@ public class CondominioService {
                 .sorted(Comparator.comparing(RelatorioUnidadeDto::unidade))
                 .toList();
     }
->>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
 }

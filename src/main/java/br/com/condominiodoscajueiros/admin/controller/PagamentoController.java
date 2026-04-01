@@ -3,9 +3,6 @@ package br.com.condominiodoscajueiros.admin.controller;
 import br.com.condominiodoscajueiros.admin.domain.Lancamento;
 import br.com.condominiodoscajueiros.admin.domain.Pagamento;
 import br.com.condominiodoscajueiros.admin.service.CondominioService;
-<<<<<<< HEAD
-import jakarta.validation.Valid;
-=======
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Paragraph;
@@ -15,7 +12,6 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
->>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,12 +21,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-<<<<<<< HEAD
-=======
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
->>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
 import java.time.LocalDate;
 
 @Controller
@@ -44,18 +36,12 @@ public class PagamentoController {
     }
 
     @GetMapping
-<<<<<<< HEAD
-    public String listar(Model model) {
-        Pagamento pagamento = new Pagamento();
-        pagamento.setDataPagamento(LocalDate.now());
-=======
     public String listar(@RequestParam(value = "editar", required = false) Long editarId, Model model) {
         Pagamento pagamento = editarId != null ? service.buscarPagamento(editarId) : new Pagamento();
         if (pagamento == null) {
             pagamento = new Pagamento();
             pagamento.setDataPagamento(LocalDate.now());
         }
->>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
 
         model.addAttribute("pagamento", pagamento);
         model.addAttribute("lancamentos", service.listarLancamentos());
@@ -73,16 +59,10 @@ public class PagamentoController {
             bindingResult.rejectValue("lancamento", "lancamento.invalido", "Lançamento inválido");
         } else {
             pagamento.setLancamento(lancamento);
-<<<<<<< HEAD
-        }
-
-        if (!bindingResult.hasErrors()) {
-=======
             validarPagamentoParcial(pagamento, bindingResult);
         }
 
         if (bindingResult.hasErrors()) {
->>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
             model.addAttribute("lancamentos", service.listarLancamentos());
             model.addAttribute("pagamentos", service.listarPagamentos());
             return "pagamentos/lista";
@@ -91,8 +71,6 @@ public class PagamentoController {
         return "redirect:/pagamentos";
     }
 
-<<<<<<< HEAD
-=======
     private void validarPagamentoParcial(Pagamento pagamento, BindingResult bindingResult) {
         BigDecimal totalPagoAtual = service.calcularTotalPago(pagamento.getLancamento().getId());
         if (pagamento.getId() != null) {
@@ -114,7 +92,6 @@ public class PagamentoController {
         return "redirect:/pagamentos";
     }
 
->>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
     @GetMapping("/{id}/recibo")
     public String recibo(@PathVariable Long id, Model model) {
         Pagamento pagamento = service.buscarPagamento(id);
@@ -122,10 +99,6 @@ public class PagamentoController {
             return "redirect:/pagamentos";
         }
         model.addAttribute("pagamento", pagamento);
-<<<<<<< HEAD
-        return "pagamentos/recibo";
-    }
-=======
         model.addAttribute("historico", service.listarPagamentosPorLancamento(pagamento.getLancamento().getId()));
         model.addAttribute("saldoAberto", service.calcularSaldoAberto(pagamento.getLancamento()));
         return "pagamentos/recibo";
@@ -159,5 +132,4 @@ public class PagamentoController {
         headers.setContentDisposition(ContentDisposition.inline().filename("recibo-" + id + ".pdf").build());
         return ResponseEntity.ok().headers(headers).body(output.toByteArray());
     }
->>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
 }

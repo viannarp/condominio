@@ -10,12 +10,8 @@ public class HomeController {
     public String home() {
         return "index";
     }
-<<<<<<< HEAD
-=======
-
     @GetMapping("/login")
     public String login() {
         return "login";
     }
->>>>>>> 9065793 (Implementa melhorias de segurança, CRUD completo, PDF e relatórios)
 }
