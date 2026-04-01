@@ -11,11 +11,10 @@
     <a class="btn btn-link ps-0" th:href="@{/}">← Voltar</a>
     <h1 class="h3 mb-3">Lançamento de despesas mensais</h1>
 
-    <div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
-        <div th:each="err : ${#fields.errors('*')}" th:text="${err}"></div>
-    </div>
-
     <form th:action="@{/despesas}" th:object="${despesa}" method="post" class="row g-3 mb-4">
+        <div class="col-12 alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+            <div th:each="err : ${#fields.errors('*')}" th:text="${err}"></div>
+        </div>
         <input type="hidden" th:field="*{id}">
         <div class="col-md-2">
             <label class="form-label">Tipo</label>
@@ -67,7 +66,7 @@
             <td th:text="${#numbers.formatDecimal(item.valor, 1, 'POINT', 2, 'COMMA')}"></td>
             <td th:text="${item.observacao}"></td>
             <td class="text-end">
-                <a class="btn btn-sm btn-outline-primary" th:href="@{'/despesas?editar=' + ${item.id}}">Editar</a>
+                <a class="btn btn-sm btn-outline-primary" th:href="@{/despesas(editar=${item.id})}">Editar</a>
                 <form class="d-inline" th:action="@{'/despesas/' + ${item.id} + '/excluir'}" method="post">
                     <button class="btn btn-sm btn-outline-danger" type="submit">Excluir</button>
                 </form>
