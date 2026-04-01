@@ -10,10 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.time.LocalDate;
 
 @Controller
@@ -27,14 +27,17 @@ public class LancamentoController {
     }
 
     @GetMapping
-    public String listar(Model model) {
-        Lancamento lancamento = new Lancamento();
-        lancamento.setCompetencia(LocalDate.now().withDayOfMonth(1));
+    public String listar(@RequestParam(value = "editar", required = false) Long editarId, Model model) {
+        Lancamento lancamento = editarId != null ? service.buscarLancamento(editarId) : new Lancamento();
+        if (lancamento == null) {
+            lancamento = new Lancamento();
+            lancamento.setCompetencia(LocalDate.now().withDayOfMonth(1));
+        }
 
         model.addAttribute("lancamento", lancamento);
         model.addAttribute("tipos", TipoLancamento.values());
         model.addAttribute("moradores", service.listarMoradores());
-        model.addAttribute("lancamentos", service.listarLancamentos());
+        model.addAttribute("resumos", service.listarResumoLancamentos());
         return "lancamentos/lista";
     }
 
@@ -50,13 +53,19 @@ public class LancamentoController {
             lancamento.setMorador(morador);
         }
 
-        if (!bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             model.addAttribute("tipos", TipoLancamento.values());
             model.addAttribute("moradores", service.listarMoradores());
-            model.addAttribute("lancamentos", service.listarLancamentos());
+            model.addAttribute("resumos", service.listarResumoLancamentos());
             return "lancamentos/lista";
         }
         service.salvarLancamento(lancamento);
+        return "redirect:/lancamentos";
+    }
+
+    @PostMapping("/{id}/excluir")
+    public String excluir(@PathVariable Long id) {
+        service.excluirLancamento(id);
         return "redirect:/lancamentos";
     }
 }

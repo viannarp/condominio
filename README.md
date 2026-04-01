@@ -1,12 +1,14 @@
-# Condomínio Admin - Base do Projeto
+# Condomínio Admin - Condomínio dos Cajueiros
 
 Projeto simples para administração de condomínio com:
 
 - cadastro de moradores
 - lançamento de condomínio
 - lançamento de cota extra
-- registro de pagamento
-- emissão de recibo em tela para impressão ou salvar em PDF
+- registro de pagamento (incluindo pagamento parcial e saldo em aberto)
+- emissão de recibo em tela para impressão
+- geração de PDF de recibo no backend
+- relatório mensal por unidade
 
 ## Tecnologias
 
@@ -15,6 +17,7 @@ Projeto simples para administração de condomínio com:
 - Spring MVC
 - Thymeleaf
 - Spring Data JPA
+- Spring Security
 - Sql Server Database
 - Bootstrap 5.3.8
 
@@ -33,6 +36,11 @@ Abra:
 
 - http://localhost:8080
 
+Login padrão:
+
+- usuário: `admin`
+- senha: `admin123`
+
 Configuração SQL Server:
 
 - JDBC URL: `jdbc:sqlserver://localhost:1433;DatabaseName=CondominioDb;encrypt=false`
@@ -43,16 +51,12 @@ Configuração SQL Server:
 
 - `Morador`: cadastro do condômino
 - `Lancamento`: débito do tipo condomínio ou cota extra
-- `Pagamento`: registro do pagamento e base para recibo
+- `Pagamento`: registro de pagamento e base para recibo
 
-## Melhorias recomendadas
+## Funcionalidades implementadas
 
-1. adicionar login com Spring Security
-2. permitir editar/excluir registros
-3. gerar PDF real no backend
-4. controlar pagamentos parciais e saldo em aberto
-5. adicionar relatório mensal por unidade
-
-## Observação
-
-Para manter a base simples, o recibo é uma página pronta para impressão. O navegador pode salvar como PDF.
+1. login com Spring Security
+2. edição/exclusão de moradores, lançamentos e pagamentos
+3. geração de PDF de recibo no backend
+4. pagamentos parciais e saldo em aberto
+5. relatório mensal por unidade

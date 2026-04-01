@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Relatório mensal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container py-4">
+    <a class="btn btn-link ps-0" th:href="@{/}">← Voltar</a>
+    <h1 class="h3 mb-3">Relatório mensal por unidade</h1>
+
+    <form method="get" th:action="@{/relatorios/mensal}" class="row g-2 mb-3">
+        <div class="col-md-3">
+            <label class="form-label">Mês de referência</label>
+            <input type="month" name="mes" class="form-control" th:value="${mesSelecionado}" required>
+        </div>
+        <div class="col-md-2 d-grid align-items-end">
+            <button class="btn btn-success" type="submit">Gerar</button>
+        </div>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Unidade</th>
+            <th>Morador</th>
+            <th>Total lançado</th>
+            <th>Total pago</th>
+            <th>Saldo em aberto</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${itens}">
+            <td th:text="${item.unidade}"></td>
+            <td th:text="${item.morador}"></td>
+            <td th:text="${#numbers.formatDecimal(item.totalLancado, 1, 'POINT', 2, 'COMMA')}"></td>
+            <td th:text="${#numbers.formatDecimal(item.totalPago, 1, 'POINT', 2, 'COMMA')}"></td>
+            <td th:text="${#numbers.formatDecimal(item.saldoAberto, 1, 'POINT', 2, 'COMMA')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

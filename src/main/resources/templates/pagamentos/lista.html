@@ -9,42 +9,46 @@
 <body>
 <div class="container py-4">
     <a class="btn btn-link ps-0" th:href="@{/}">← Voltar</a>
-    <h1 class="h3 mb-3">Registro de pagamentos</h1>
+    <h1 class="h3 mb-3">Registro de pagamentos (com parcial)</h1>
 
     <form th:action="@{/pagamentos}" th:object="${pagamento}" method="post" class="row g-3 mb-4">
+        <input type="hidden" th:field="*{id}">
         <div class="col-md-4">
             <label class="form-label">Lançamento</label>
             <select name="lancamentoId" class="form-select" required>
                 <option value="">Selecione...</option>
-                <option th:each="l : ${lancamentos}" th:value="${l.id}" th:text="${l.morador.nome + ' - ' + l.tipo + ' - ' + l.competencia}"></option>
+                <option th:each="l : ${lancamentos}"
+                        th:selected="${pagamento.lancamento != null and pagamento.lancamento.id == l.id}"
+                        th:value="${l.id}" th:text="${l.morador.nome + ' - ' + l.tipo + ' - ' + l.competencia + ' (saldo: ' + #numbers.formatDecimal(@condominioService.calcularSaldoAberto(l), 1, 'POINT', 2, 'COMMA') + ')'}"></option>
             </select>
         </div>
         <div class="col-md-2">
             <label class="form-label">Data</label>
-            <input type="date" th:field="*{dataPagamento}" class="form-control">
+            <input type="date" th:field="*{dataPagamento}" class="form-control" required>
         </div>
         <div class="col-md-2">
             <label class="form-label">Valor pago</label>
-            <input type="number" step="0.01" th:field="*{valorPago}" class="form-control">
+            <input type="number" step="0.01" th:field="*{valorPago}" class="form-control" required>
         </div>
         <div class="col-md-3">
             <label class="form-label">Forma</label>
             <input type="text" th:field="*{formaPagamento}" class="form-control" placeholder="PIX, boleto, dinheiro...">
         </div>
         <div class="col-md-1 d-grid align-items-end">
-            <button class="btn btn-success" type="submit">Salvar</button>
+            <button class="btn btn-success" type="submit" th:text="${pagamento.id == null ? 'Salvar' : 'Atualizar'}"></button>
         </div>
     </form>
 
-    <table class="table table-striped">
+    <table class="table table-striped align-middle">
         <thead>
         <tr>
             <th>Data</th>
             <th>Morador</th>
             <th>Tipo</th>
-            <th>Valor</th>
+            <th>Valor pago</th>
             <th>Forma</th>
-            <th>Recibo</th>
+            <th>Recibos</th>
+            <th class="text-end">Ações</th>
         </tr>
         </thead>
         <tbody>
@@ -54,7 +58,16 @@
             <td th:text="${item.lancamento.tipo}"></td>
             <td th:text="${#numbers.formatDecimal(item.valorPago, 1, 'POINT', 2, 'COMMA')}"></td>
             <td th:text="${item.formaPagamento}"></td>
-            <td><a class="btn btn-sm btn-outline-primary" th:href="@{'/pagamentos/' + ${item.id} + '/recibo'}">Visualizar</a></td>
+            <td>
+                <a class="btn btn-sm btn-outline-primary" th:href="@{'/pagamentos/' + ${item.id} + '/recibo'}">Tela</a>
+                <a class="btn btn-sm btn-outline-secondary" th:href="@{'/pagamentos/' + ${item.id} + '/recibo/pdf'}" target="_blank">PDF</a>
+            </td>
+            <td class="text-end">
+                <a class="btn btn-sm btn-outline-primary" th:href="@{'/pagamentos?editar=' + ${item.id}}">Editar</a>
+                <form class="d-inline" th:action="@{'/pagamentos/' + ${item.id} + '/excluir'}" method="post">
+                    <button class="btn btn-sm btn-outline-danger" type="submit">Excluir</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>

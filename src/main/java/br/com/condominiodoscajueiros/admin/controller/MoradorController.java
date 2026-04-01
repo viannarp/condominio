@@ -8,8 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/moradores")
@@ -22,8 +24,12 @@ public class MoradorController {
     }
 
     @GetMapping
-    public String listar(Model model) {
-        model.addAttribute("morador", new Morador());
+    public String listar(@RequestParam(value = "editar", required = false) Long editarId, Model model) {
+        Morador morador = editarId != null ? service.buscarMorador(editarId) : new Morador();
+        if (morador == null) {
+            morador = new Morador();
+        }
+        model.addAttribute("morador", morador);
         model.addAttribute("moradores", service.listarMoradores());
         return "moradores/lista";
     }
@@ -37,6 +43,12 @@ public class MoradorController {
             return "moradores/lista";
         }
         service.salvarMorador(morador);
+        return "redirect:/moradores";
+    }
+
+    @PostMapping("/{id}/excluir")
+    public String excluir(@PathVariable Long id) {
+        service.excluirMorador(id);
         return "redirect:/moradores";
     }
 }
