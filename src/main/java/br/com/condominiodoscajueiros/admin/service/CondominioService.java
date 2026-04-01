@@ -1,11 +1,15 @@
 package br.com.condominiodoscajueiros.admin.service;
 
+import br.com.condominiodoscajueiros.admin.domain.Despesa;
 import br.com.condominiodoscajueiros.admin.domain.Lancamento;
 import br.com.condominiodoscajueiros.admin.domain.Morador;
 import br.com.condominiodoscajueiros.admin.domain.Pagamento;
+import br.com.condominiodoscajueiros.admin.domain.TipoDespesa;
 import br.com.condominiodoscajueiros.admin.dto.LancamentoResumoDto;
+import br.com.condominiodoscajueiros.admin.dto.RelatorioDespesaTipoDto;
 import br.com.condominiodoscajueiros.admin.dto.RelatorioMensalResumoDto;
 import br.com.condominiodoscajueiros.admin.dto.RelatorioUnidadeDto;
+import br.com.condominiodoscajueiros.admin.repository.DespesaRepository;
 import br.com.condominiodoscajueiros.admin.repository.LancamentoRepository;
 import br.com.condominiodoscajueiros.admin.repository.MoradorRepository;
 import br.com.condominiodoscajueiros.admin.repository.PagamentoRepository;
@@ -27,13 +31,16 @@ public class CondominioService {
     private final MoradorRepository moradorRepository;
     private final LancamentoRepository lancamentoRepository;
     private final PagamentoRepository pagamentoRepository;
+    private final DespesaRepository despesaRepository;
 
     public CondominioService(MoradorRepository moradorRepository,
                              LancamentoRepository lancamentoRepository,
-                             PagamentoRepository pagamentoRepository) {
+                             PagamentoRepository pagamentoRepository,
+                             DespesaRepository despesaRepository) {
         this.moradorRepository = moradorRepository;
         this.lancamentoRepository = lancamentoRepository;
         this.pagamentoRepository = pagamentoRepository;
+        this.despesaRepository = despesaRepository;
     }
 
     public List<Morador> listarMoradores() {
@@ -115,7 +122,6 @@ public class CondominioService {
         return pagamentoRepository.findByLancamentoIdOrderByDataPagamentoAsc(lancamentoId);
     }
 
-
     public RelatorioMensalResumoDto resumirRelatorioMensal(List<RelatorioUnidadeDto> itens) {
         BigDecimal totalLancado = itens.stream()
                 .map(RelatorioUnidadeDto::totalLancado)
@@ -154,5 +160,51 @@ public class CondominioService {
         return relatorio.stream()
                 .sorted(Comparator.comparing(RelatorioUnidadeDto::unidade))
                 .toList();
+    }
+
+    public List<Despesa> listarDespesas() {
+        return despesaRepository.findAll().stream()
+                .sorted(Comparator.comparing(Despesa::getReferencia).reversed().thenComparing(Despesa::getTipo))
+                .toList();
+    }
+
+    public Despesa salvarDespesa(Despesa despesa) {
+        return despesaRepository.save(despesa);
+    }
+
+    public Despesa buscarDespesa(Long id) {
+        return despesaRepository.findById(id).orElse(null);
+    }
+
+    @Transactional
+    public void excluirDespesa(Long id) {
+        despesaRepository.deleteById(id);
+    }
+
+    public List<Despesa> listarDespesasPorMes(YearMonth mes) {
+        LocalDate inicio = mes.atDay(1);
+        LocalDate fim = mes.atEndOfMonth();
+        return despesaRepository.findByReferenciaBetween(inicio, fim).stream()
+                .sorted(Comparator.comparing(Despesa::getReferencia).thenComparing(Despesa::getTipo))
+                .toList();
+    }
+
+    public List<RelatorioDespesaTipoDto> relatorioMensalDespesaPorTipo(YearMonth mes) {
+        Map<TipoDespesa, BigDecimal> totais = listarDespesasPorMes(mes).stream()
+                .collect(Collectors.groupingBy(
+                        Despesa::getTipo,
+                        Collectors.mapping(Despesa::getValor, Collectors.reducing(BigDecimal.ZERO, BigDecimal::add))
+                ));
+
+        return totais.entrySet().stream()
+                .map(entry -> new RelatorioDespesaTipoDto(entry.getKey(), entry.getValue()))
+                .sorted(Comparator.comparing(item -> item.tipo().name()))
+                .toList();
+    }
+
+    public BigDecimal totalDespesasMensais(YearMonth mes) {
+        return listarDespesasPorMes(mes).stream()
+                .map(Despesa::getValor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

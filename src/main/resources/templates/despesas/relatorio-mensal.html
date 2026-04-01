@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Relatório mensal de despesas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container py-4">
+    <a class="btn btn-link ps-0" th:href="@{/despesas}">← Voltar para despesas</a>
+    <h1 class="h3 mb-3">Relatório mensal das despesas do condomínio</h1>
+
+    <form method="get" th:action="@{/despesas/relatorios/mensal}" class="row g-2 mb-4">
+        <div class="col-md-3">
+            <label class="form-label">Mês de referência</label>
+            <input type="month" name="mes" class="form-control" th:value="${mesSelecionado}" required>
+        </div>
+        <div class="col-md-2 d-grid align-items-end">
+            <button class="btn btn-success" type="submit">Gerar</button>
+        </div>
+    </form>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-4" th:each="item : ${totaisPorTipo}">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${'Total ' + item.tipo}"></h5>
+                    <p class="card-text h4" th:text="${'R$ ' + #numbers.formatDecimal(item.total, 1, 'POINT', 2, 'COMMA')}"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-success shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Total mensal</h5>
+                    <p class="card-text h4 text-success" th:text="${'R$ ' + #numbers.formatDecimal(totalMensal, 1, 'POINT', 2, 'COMMA')}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-striped" th:if="${!#lists.isEmpty(itens)}">
+        <thead>
+        <tr>
+            <th>Referência</th>
+            <th>Tipo</th>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Observação</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${itens}">
+            <td th:text="${item.referencia}"></td>
+            <td th:text="${item.tipo}"></td>
+            <td th:text="${item.descricao}"></td>
+            <td th:text="${#numbers.formatDecimal(item.valor, 1, 'POINT', 2, 'COMMA')}"></td>
+            <td th:text="${item.observacao}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="alert alert-info" th:if="${#lists.isEmpty(itens)}">
+        Nenhuma despesa registrada para o mês selecionado.
+    </div>
+</div>
+</body>
+</html>

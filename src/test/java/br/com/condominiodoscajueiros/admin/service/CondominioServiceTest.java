@@ -2,6 +2,7 @@ package br.com.condominiodoscajueiros.admin.service;
 
 import br.com.condominiodoscajueiros.admin.dto.RelatorioMensalResumoDto;
 import br.com.condominiodoscajueiros.admin.dto.RelatorioUnidadeDto;
+import br.com.condominiodoscajueiros.admin.repository.DespesaRepository;
 import br.com.condominiodoscajueiros.admin.repository.LancamentoRepository;
 import br.com.condominiodoscajueiros.admin.repository.MoradorRepository;
 import br.com.condominiodoscajueiros.admin.repository.PagamentoRepository;
@@ -18,11 +19,13 @@ class CondominioServiceTest {
     private final MoradorRepository moradorRepository = mock(MoradorRepository.class);
     private final LancamentoRepository lancamentoRepository = mock(LancamentoRepository.class);
     private final PagamentoRepository pagamentoRepository = mock(PagamentoRepository.class);
+    private final DespesaRepository despesaRepository = mock(DespesaRepository.class);
 
     private final CondominioService service = new CondominioService(
             moradorRepository,
             lancamentoRepository,
-            pagamentoRepository
+            pagamentoRepository,
+            despesaRepository
     );
 
     @Test

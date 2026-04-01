@@ -5,6 +5,7 @@ Projeto simples para administração de condomínio com:
 - cadastro de moradores
 - lançamento de condomínio
 - lançamento de cota extra
+- lançamento de despesas mensais (fixas e extras)
 - registro de pagamento (incluindo pagamento parcial e saldo em aberto)
 - emissão de recibo em tela para impressão
 - geração de PDF de recibo no backend
@@ -61,3 +62,5 @@ Configuração SQL Server:
 4. pagamentos parciais e saldo em aberto
 5. relatório mensal por unidade
 6. exportação do relatório mensal em PDF
+7. módulo de despesas mensais (fixas e extras)
+8. relatório mensal das despesas por tipo e total do condomínio

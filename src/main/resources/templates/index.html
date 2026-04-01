@@ -20,11 +20,11 @@
 <main class="container">
     <div class="p-4 p-md-5 mb-4 text-white rounded hero">
         <h1 class="display-6">Condomínio Admin</h1>
-        <p class="lead mb-0">Cadastro, lançamentos, pagamentos, recibo PDF e relatório mensal por unidade.</p>
+        <p class="lead mb-0">Cadastro, lançamentos, pagamentos, despesas mensais e relatórios gerenciais.</p>
     </div>
 
     <div class="row g-3">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <a class="card shadow-sm h-100 text-decoration-none" th:href="@{/moradores}">
                 <div class="card-body">
                     <h5 class="card-title">Moradores</h5>
@@ -32,7 +32,7 @@
                 </div>
             </a>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <a class="card shadow-sm h-100 text-decoration-none" th:href="@{/lancamentos}">
                 <div class="card-body">
                     <h5 class="card-title">Lançamentos</h5>
@@ -40,7 +40,7 @@
                 </div>
             </a>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <a class="card shadow-sm h-100 text-decoration-none" th:href="@{/pagamentos}">
                 <div class="card-body">
                     <h5 class="card-title">Pagamentos</h5>
@@ -48,11 +48,27 @@
                 </div>
             </a>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <a class="card shadow-sm h-100 text-decoration-none" th:href="@{/relatorios/mensal}">
                 <div class="card-body">
                     <h5 class="card-title">Relatório</h5>
                     <p class="text-muted">Resumo mensal por unidade.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a class="card shadow-sm h-100 text-decoration-none" th:href="@{/despesas}">
+                <div class="card-body">
+                    <h5 class="card-title">Despesas</h5>
+                    <p class="text-muted">Lançamento de despesas fixas e extras.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a class="card shadow-sm h-100 text-decoration-none" th:href="@{/despesas/relatorios/mensal}">
+                <div class="card-body">
+                    <h5 class="card-title">Relatório de despesas</h5>
+                    <p class="text-muted">Resumo mensal por tipo e total geral.</p>
                 </div>
             </a>
         </div>
